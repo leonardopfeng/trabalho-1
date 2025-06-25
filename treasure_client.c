@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
             printf("Tentando criar o diretório com permissões mais amplas...\n");
             
             // Tentar criar o diretório usando comandos do sistema
-            char cmd[1024]; // Aumentado para 1024 bytes
+            char cmd[1024]; 
             snprintf(cmd, sizeof(cmd), "mkdir -p %s && chmod 777 %s", DIRETORIO_RECEBIDOS, DIRETORIO_RECEBIDOS);
             system(cmd);
             
@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
         if (chmod(DIRETORIO_RECEBIDOS, 0777) == -1) {
             perror("Não foi possível alterar as permissões do diretório");
             // Tentar via sistema
-            char cmd[1024]; // Aumentado para 1024 bytes
+            char cmd[1024];
             snprintf(cmd, sizeof(cmd), "chmod 777 %s", DIRETORIO_RECEBIDOS);
             system(cmd);
         } else {
@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
     }
     
     // Verificar se conseguimos escrever no diretório
-    char test_path[512]; // Aumentado para 512 bytes
+    char test_path[512]; 
     snprintf(test_path, sizeof(test_path), "%s/.test_write", DIRETORIO_RECEBIDOS);
     FILE *test_file = fopen(test_path, "w");
     if (test_file) {
@@ -599,7 +599,7 @@ void *thread_recebimento(void *arg) {
 
 // Iniciar o recebimento de um arquivo
 bool iniciar_recebimento_arquivo(const char *nome_arquivo) {
-    char caminho[512]; // Aumentado para 512 bytes
+    char caminho[512];
     snprintf(caminho, sizeof(caminho), "%s/%s", DIRETORIO_RECEBIDOS, nome_arquivo);
     
     // Fechamos qualquer arquivo que esteja aberto
@@ -619,7 +619,7 @@ bool iniciar_recebimento_arquivo(const char *nome_arquivo) {
         if (mkdir(DIRETORIO_RECEBIDOS, 0777) == -1) {
             perror("Falha ao criar diretório");
             // Tentar via sistema
-            char cmd[1024]; // Aumentado para 1024 bytes
+            char cmd[1024]; 
             snprintf(cmd, sizeof(cmd), "mkdir -p %s && chmod 777 %s", DIRETORIO_RECEBIDOS, DIRETORIO_RECEBIDOS);
             system(cmd);
         }
@@ -631,7 +631,6 @@ bool iniciar_recebimento_arquivo(const char *nome_arquivo) {
         perror("Erro ao criar arquivo");
         printf("Não foi possível criar o arquivo %s\n", caminho);
         
-        // Tentar via sistema - aumentamos o buffer para 1024 bytes
         char cmd[1024];
         snprintf(cmd, sizeof(cmd), "touch %.490s && chmod 666 %.490s", caminho, caminho);
         system(cmd);
@@ -660,7 +659,7 @@ void finalizar_recebimento_arquivo(bool sucesso) {
     
     if (!sucesso) {
         // Em caso de falha, tentar remover o arquivo incompleto
-        char caminho[512]; // Aumentado para 512 bytes
+        char caminho[512]; 
         snprintf(caminho, sizeof(caminho), "%s/%s", DIRETORIO_RECEBIDOS, nome_arquivo_recebido);
         remove(caminho);
     }
